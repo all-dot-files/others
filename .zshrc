@@ -38,6 +38,27 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
+# nvim alias
+nvim() {
+    if [[ -n "$1" ]]; then
+        # 检查是否是文件
+        if [[ -f "$1" ]]; then
+            # 如果是文件，获取其所在的目录
+            local dir
+            dir=$(dirname "$1")
+            command nvim --cmd "cd $dir" "$1"
+        elif [[ "$1" = "." || "$1" = "./" ]]; then
+            command nvim .
+        else
+            # 如果不是文件，直接 cd 到目标目录
+            command nvim --cmd "cd $1" "$1"
+        fi
+    else
+        # 如果没有参数，直接打开当前目录
+        command nvim .
+    fi
+}
+
 # golang conf
 export GOROOT='/usr/local/go'
 export GOPRIVATE=*.baidu.com
